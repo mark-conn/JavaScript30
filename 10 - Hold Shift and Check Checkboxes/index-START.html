@@ -104,6 +104,20 @@
   </div>
 
 <script>
+const boxes = [...document.querySelectorAll('input')]
+boxes.forEach(box => box.addEventListener('click', handleCheck))
+
+function handleCheck(e) {
+    let selected = boxes.filter(box => box.checked),
+        indexes = selected.map(box => boxes.indexOf(box));
+
+    if (e.shiftKey) {
+        boxes.map(box => {
+            boxes.indexOf(box) >= indexes[0] && boxes.indexOf(box) <= indexes[indexes.length - 1] ?
+            box.checked = true : box.checked = false;
+        })
+    }
+}
 </script>
 </body>
 </html>
