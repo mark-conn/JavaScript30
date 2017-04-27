@@ -76,3 +76,20 @@
       outline:0;
       border:1px solid rgba(0,0,0,0.1);
     }
+
+    .buttons-list {
+      display: flex;
+      margin-top: 10px;
+    }
+
+    .button {
+      padding: 5px 5px;
+      margin-left: 5px;
+      border: 1px solid grey;
+      border-radius: 2px;
+      cursor: pointer;
+    }
+
+    .button:hover {
+      background-color: #ffffaa;
+    }
