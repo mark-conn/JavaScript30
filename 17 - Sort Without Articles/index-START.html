@@ -44,7 +44,15 @@
 
 <script>
 const bands = ['The Plot in You', 'The Devil Wears Prada', 'Pierce the Veil', 'Norma Jean', 'The Bled', 'Say Anything', 'The Midway State', 'We Came as Romans', 'Counterparts', 'Oh, Sleeper', 'A Skylit Drive', 'Anywhere But Here', 'An Old Dog'];
+const sortedBands = bands.sort((a, b) => {
+  a = a.toLowerCase().split(' ')
+  b = b.toLowerCase().split(' ')
+  if (a[0] === 'the' || a[0] === 'a' || a[0] === 'an') {
+    console.log(a.join(a[1]))
+  }
 
+})
+console.log(sortedBands)
 
 </script>
 
