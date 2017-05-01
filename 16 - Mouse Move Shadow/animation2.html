@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Mouse Shadow</title>
+</head>
+<body>
+
+  <div class="hero">
+    <h1>peoplelikeus</h1>
+  </div>
+
+  <style>
+  html {
+    color:black;
+    font-family: sans-serif;
+    background-color: black;
+  }
+
+  .hero {
+    min-height: 100vh;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    color:white;
+  }
+
+
+  h1 {
+    text-shadow: 10px 10px 5px rgba(0,0,0,1);
+    font-size: 100px;
+  }
+  </style>
+
+<script>
+  const hero = document.querySelector('.hero');
+  const text = hero.querySelector('h1');
+  var walk = 10; //100px
+
+  window.onload = startInterval()
+  function startInterval() {
+    // setInterval(modulateWalk, 500)
+    setInterval(modulateColor, 10)
+  }
+  var walkUp,
+      walkDown,
+      color1 = 0,
+      color2 = 90,
+      color3 = 180,
+      color4 = 270
+
+  function modulateColor() {
+    color1++;
+    color2++;
+    color3++;
+    color4++;
+  }
+
+  function modulateWalk() {
+
+    if (walk < 20) {
+      walkUp = true;
+    }
+    if (walk === 20) {
+      walkUp = false;
+      walkDown = true;
+    }
+    if (walk === 5) {
+      walkDown = false;
+      walkUp = true;
+    }
+    if (walkDown) {
+      walkUp = false;
+    }
+    if (walkUp) {
+      walk++
+    }
+    if (walkDown) {
+      walk--
+    }
+    return;
+  }
+
+  function shadow(e) {
+    const { offsetWidth: width, offsetHeight: height } = hero;
+    let { offsetX: x, offsetY: y } = e;
+    if (this !== e.target) {
+      x = x + e.target.offsetLeft;
+      y = y + e.target.offsetTop;
+    }
+    const xWalk = Math.round((x / width * walk) - (walk / 2));
+    const yWalk = Math.round((y / height * walk) - (walk / 2));
+
+    text.style.textShadow = `
+    ${xWalk}px ${yWalk}px .5px hsl(${color1}, 100%, 50%),
+    ${xWalk * -1}px ${yWalk}px .5px hsl(${color2}, 100%, 50%),
+    ${yWalk}px ${xWalk * -1}px .5px hsl(${color3}, 100%, 50%),
+    ${yWalk * -1}px ${xWalk}px .5px hsl(${color4}, 100%, 50%)
+    `;
+  }
+
+  let pattern = [];
+
+  function shadow2(e) {
+    const { offsetWidth: width, offsetHeight: height } = hero;
+    let { offsetX: x, offsetY: y } = e;
+    if (this !== e.target) {
+      x = x + e.target.offsetLeft;
+      y = y + e.target.offsetTop;
+    }
+    pattern.push({x, y});
+  }
+
+  function triggerMouseMove() {
+      pattern = [];
+      hero.addEventListener('mousemove', shadow2);
+  }
+
+  function triggerMouseStop() {
+      hero.removeEventListener('mousemove', shadow2)
+      triggerPatternStart(pattern)
+  }
+
+  function triggerPatternStart(arr) {
+    for(i=0; i < arr.length; i++) {
+      setTimeout(patternLoop(arr[i]), 5000)
+    }
+  }
+
+  function patternLoop(obj) {
+    console.log('executed')
+    const { x, y } = obj;
+    const { offsetWidth: width, offsetHeight: height } = hero;
+    const xWalk = Math.round((x / width * walk) - (walk / 2));
+    const yWalk = Math.round((y / height * walk) - (walk / 2));
+    text.style.textShadow = `
+    ${xWalk}px ${yWalk}px .5px hsl(${color1}, 100%, 50%),
+    ${xWalk * -1}px ${yWalk}px .5px hsl(${color2}, 100%, 50%),
+    ${yWalk}px ${xWalk * -1}px .5px hsl(${color3}, 100%, 50%),
+    ${yWalk * -1}px ${xWalk}px .5px hsl(${color4}, 100%, 50%)
+    `
+  }
+     hero.addEventListener('mousemove', shadow)
+  // hero.addEventListener('mousedown', triggerMouseMove)
+  // hero.addEventListener('mouseup', triggerMouseStop)
+</script>
+</body>
+</html>
